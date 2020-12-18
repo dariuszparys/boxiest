@@ -12,6 +12,10 @@ function SetupChocolatey() {
     refreshenv
 }
 
+function EnableWsl2() {
+    choco install Microsoft-Windows-Subsystem-Linux --source windowsfeatures
+}
+
 function CloneRepository() {
     choco install git --params="/GitOnlyOnPath /WindowsTerminal /NoShellHereIntegration /SChannel"
     git clone https://github.com/dariuszparys/boxiest.git ${boxiest_path}
@@ -35,6 +39,7 @@ function CleanupRepository() {
 
 function Main() {
     SetupChocolatey
+    EnableWsl2
     CloneRepository
     InstallSoftwarePackages
     CleanupRepository
