@@ -16,7 +16,7 @@ function EnableWsl2() {
     choco install Microsoft-Windows-Subsystem-Linux --source windowsfeatures
 }
 
-function InstallUbuntu2004() {
+function InstallLinuxDistribution() {
     Set-Location "${env:TEMP}"
     Invoke-WebRequest -Uri https://aka.ms/wsl-debian-gnulinux -OutFile Debian.appx -UseBasicParsing
 
@@ -50,7 +50,7 @@ function CleanupRepository() {
 function Main() {
     SetupChocolatey
     EnableWsl2
-    InstallUbuntu2004
+    InstallLinuxDistribution
     CloneRepository
     InstallSoftwarePackages
     CleanupRepository
