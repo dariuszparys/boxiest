@@ -22,8 +22,7 @@ function InstallSoftwarePackages() {
         Write-Error "Repository not available"
         exit 1
     }
-    Set-Location ${boxiest_path}
-    choco install packages.config
+    choco install "${boxiest_path}\packages.config"
 }
 
 function CleanupRepository() {
