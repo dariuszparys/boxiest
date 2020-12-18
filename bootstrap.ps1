@@ -18,7 +18,7 @@ function EnableWsl2() {
 
 function InstallUbuntu2004() {
     Set-Location "${env:TEMP}"
-    Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-2004 -OutFile Ubuntu.appx -UseBasicParsing
+    Invoke-WebRequest -Uri https://aka.ms/wslubuntu2004 -OutFile Ubuntu.appx -UseBasicParsing
 
     Rename-Item .\Ubuntu.appx .\Ubuntu.zip
     Expand-Archive .\Ubuntu.zip "${HOME}\Ubuntu"
