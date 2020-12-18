@@ -1,7 +1,7 @@
 $boxiest_path = "${env:TEMP}\boxiest"
 
 function SetupChocolatey() {
-    Set-Location $env:USERPROFILE
+    Set-Location ${env:USERPROFILE}
     If ( ! ( Test-Path $PROFILE ) ) { 
         New-Item -Force -ItemType File -Path $PROFILE; Add-Content -Path $PROFILE -Encoding UTF8 -Value "# Powershell Profile"; 
     }
@@ -22,10 +22,12 @@ function InstallSoftwarePackages() {
         Write-Error "Repository not available"
         exit 1
     }
-    choco install "${boxiest_path}\packages.config"
+    Set-Location ${boxiest_path}
+    choco install packages.config
 }
 
 function CleanupRepository() {
+    Set-Location ${env:USERPROFILE}
     if(Test-Path ${boxiest_path}) {
         Remove-Item -Path ${boxiest_path} -Recurse -Force
     }
