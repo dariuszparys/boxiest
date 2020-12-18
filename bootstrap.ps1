@@ -18,12 +18,12 @@ function EnableWsl2() {
 
 function InstallUbuntu2004() {
     Set-Location "${env:TEMP}"
-    Invoke-WebRequest -Uri https://aka.ms/wslubuntu2004 -OutFile Ubuntu.appx -UseBasicParsing
+    Invoke-WebRequest -Uri https://aka.ms/wsl-debian-gnulinux -OutFile Debian.appx -UseBasicParsing
 
-    Rename-Item .\Ubuntu.appx .\Ubuntu.zip
-    Expand-Archive .\Ubuntu.zip "${HOME}\Ubuntu"
+    Rename-Item .\Debian.appx .\Debian.zip
+    Expand-Archive .\Debian.zip "${HOME}\Debian"
     $userenv = [System.Environment]::GetEnvironmentVariable("Path", "User")
-    [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";${HOME}\Ubuntu", "User")
+    [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";${HOME}\Debian", "User")
 }
 
 function CloneRepository() {
