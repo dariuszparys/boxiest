@@ -16,6 +16,16 @@ function EnableWsl2() {
     choco install Microsoft-Windows-Subsystem-Linux --source windowsfeatures
 }
 
+function InstallUbuntu2004() {
+    Set-Location "${env:TEMP}"
+    Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-2004 -OutFile Ubuntu.appx -UseBasicParsing
+
+    Rename-Item .\Ubuntu.appx .\Ubuntu.zip
+    Expand-Archive .\Ubuntu.zip "${HOME}\Ubuntu"
+    $userenv = [System.Environment]::GetEnvironmentVariable("Path", "User")
+    [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";${HOME}\Ubuntu", "User")
+}
+
 function CloneRepository() {
     choco install git --params="/GitOnlyOnPath /WindowsTerminal /NoShellHereIntegration /SChannel"
     git clone https://github.com/dariuszparys/boxiest.git ${boxiest_path}
