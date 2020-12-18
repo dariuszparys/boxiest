@@ -50,6 +50,7 @@ function CleanupRepository() {
 function Main() {
     SetupChocolatey
     EnableWsl2
+    InstallUbuntu2004
     CloneRepository
     InstallSoftwarePackages
     CleanupRepository
