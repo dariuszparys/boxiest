@@ -22,14 +22,14 @@ function InstallSoftwarePackages() {
         Write-Error "Repository not available"
         exit 1
     }
-    Set-Location ${boxiest_path}
+    Set-Location "${boxiest_path}"
     choco install packages.config
 }
 
 function CleanupRepository() {
-    Set-Location ${env:USERPROFILE}
+    Set-Location "${HOME}"
     if(Test-Path ${boxiest_path}) {
-        Remove-Item -Path ${boxiest_path} -Recurse -Force
+        Remove-Item -Path "${boxiest_path}" -Recurse -Force
     }
 }
 
