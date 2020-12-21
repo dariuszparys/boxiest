@@ -68,7 +68,7 @@ function CleanupRepository() {
 
 function EnsureVariables() {
     if((${env:WSL_USER} -eq $null) -Or (${env:WSL_PASSWORD} -eq $null )) {
-        Write-Error "WSL_USER and WSL_PASSWORD environment variables not set using root for Debian"
+        Write-Warning "WSL_USER and WSL_PASSWORD environment variables not set, now using root for Debian"
         ${debian_root} = $TRUE
     }
 }
