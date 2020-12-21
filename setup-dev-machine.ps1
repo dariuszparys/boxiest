@@ -25,13 +25,10 @@ function executeScript {
 executeScript "fileexplorersettings.ps1";
 executeScript "browsers.ps1";
 executeScript "common-devtools.ps1";
-executeScript "visualstudio-2019.ps1";
 executeScript "wsl.ps1";
 
 write-host "Installing tools inside the WSL distro..."
-# Debian run apt install python2.7 python-pip -y 
-# Debian run apt install python-numpy python-scipy -y
-# Debian run pip install pandas
+Debian run apt install python3 python3-pip -y 
 
 write-host "Finished installing tools inside the WSL distro"
 
