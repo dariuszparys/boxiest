@@ -1,4 +1,5 @@
 $boxiest_path = "${env:TEMP}\boxiest"
+$debian_path = "${HOME}\Debian"
 
 function SetupChocolatey() {
     Set-Location ${env:USERPROFILE}
@@ -16,14 +17,29 @@ function EnableWsl2() {
     choco install Microsoft-Windows-Subsystem-Linux --source windowsfeatures
 }
 
-function InstallLinuxDistribution() {
+function InstallDebian() {
     Set-Location "${env:TEMP}"
     Invoke-WebRequest -Uri https://aka.ms/wsl-debian-gnulinux -OutFile Debian.appx -UseBasicParsing
 
     Rename-Item .\Debian.appx .\Debian.zip
-    Expand-Archive .\Debian.zip "${HOME}\Debian"
+    Expand-Archive .\Debian.zip "${debian_path}"
     $userenv = [System.Environment]::GetEnvironmentVariable("Path", "User")
-    [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";${HOME}\Debian", "User")
+    [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";${debian_path}", "User")
+}
+
+function ConfigureDebian() {
+    if (!(Test-Path ${debian_path})) {
+        Write-Error "Debian distribution not installed"
+        exit 1
+    }
+
+    Set-Location "${debian_path}"
+    .\Debian install --root
+    wsl -d Debian -e "apt update"
+    wsl -d Debian -e "apt upgrade -y"
+    .\Debian run "useradd -m -s /bin/bash -p ${env:WSL_PASSWORD} ${env:WSL_USER}"
+    .\Debian config --default-user ${env:WSL_USER}
+    wslconfig /setdefault Debian
 }
 
 function CloneRepository() {
@@ -47,10 +63,19 @@ function CleanupRepository() {
     }
 }
 
+function EnsureVariables() {
+    if(!(Test-Path ${env:WSL_USER}) || !(Test-Path ${env:WSL_PASSWORD})) {
+        Write-Error "WSL_USER and WSL_PASSWORD environment variables have to be set"
+        exit 1
+    }
+}
+
 function Main() {
+    EnsureVariables
     SetupChocolatey
     EnableWsl2
-    InstallLinuxDistribution
+    InstallDebian
+    ConfigureDebian
     CloneRepository
     InstallSoftwarePackages
     CleanupRepository
