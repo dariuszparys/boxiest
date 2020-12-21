@@ -1,6 +1,6 @@
 $boxiest_path = "${env:TEMP}\boxiest"
 $debian_path = "${HOME}\Debian"
-$debian_root = false
+$debian_root = $FALSE
 
 function SetupChocolatey() {
     Set-Location ${env:USERPROFILE}
@@ -69,7 +69,7 @@ function CleanupRepository() {
 function EnsureVariables() {
     if(!(Test-Path ${env:WSL_USER}) -Or !(Test-Path ${env:WSL_PASSWORD})) {
         Write-Error "WSL_USER and WSL_PASSWORD environment variables not set using root for Debian"
-        ${debian_root} = true
+        ${debian_root} = $TRUE
     }
 }
 
