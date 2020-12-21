@@ -1,0 +1,8 @@
+choco install visualstudio2019enterprise
+choco install visualstudio2019-workload-azure
+choco install visualstudio2019-workload-python
+choco install visualstudio2019-workload-webbuildtools
+choco install visualstudio2019-workload-nativecrossplat
+choco install visualstudio2019-workload-node
+choco install visualstudio2019-workload-netcoretools
+choco install visualstudio2019-workload-netweb
