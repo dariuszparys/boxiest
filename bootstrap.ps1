@@ -67,7 +67,7 @@ function CleanupRepository() {
 }
 
 function EnsureVariables() {
-    if(!(Test-Path ${env:WSL_USER}) || !(Test-Path ${env:WSL_PASSWORD})) {
+    if(!(Test-Path ${env:WSL_USER}) -Or !(Test-Path ${env:WSL_PASSWORD})) {
         Write-Error "WSL_USER and WSL_PASSWORD environment variables not set using root for Debian"
         ${debian_root} = true
     }
