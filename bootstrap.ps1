@@ -1,5 +1,6 @@
 $boxiest_path = "${env:TEMP}\boxiest"
 $debian_path = "${HOME}\Debian"
+$debian_root = false
 
 function SetupChocolatey() {
     Set-Location ${env:USERPROFILE}
@@ -37,8 +38,10 @@ function ConfigureDebian() {
     .\Debian install --root
     wsl -d Debian -e "apt update"
     wsl -d Debian -e "apt upgrade -y"
-    .\Debian run "useradd -m -s /bin/bash -p ${env:WSL_PASSWORD} ${env:WSL_USER}"
-    .\Debian config --default-user ${env:WSL_USER}
+    if(!${debian_root}) {
+        .\Debian run "useradd -m -s /bin/bash -p ${env:WSL_PASSWORD} ${env:WSL_USER}"
+        .\Debian config --default-user ${env:WSL_USER}
+    }
     wslconfig /setdefault Debian
 }
 
@@ -65,8 +68,8 @@ function CleanupRepository() {
 
 function EnsureVariables() {
     if(!(Test-Path ${env:WSL_USER}) || !(Test-Path ${env:WSL_PASSWORD})) {
-        Write-Error "WSL_USER and WSL_PASSWORD environment variables have to be set"
-        exit 1
+        Write-Error "WSL_USER and WSL_PASSWORD environment variables not set using root for Debian"
+        ${debian_root} = true
     }
 }
 
