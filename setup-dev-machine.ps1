@@ -1,11 +1,11 @@
 # Author: Dariusz Parys
 # Common dev settings for Windows Server 2019 with Containers base image
 
-installScript {
+function installScript {
     param (
         $script
     )
-    
+
     Install-BoxstarterPackage -PackageName "scripts\$script"
 }
 
