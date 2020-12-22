@@ -27,10 +27,12 @@ executeScript "browsers.ps1";
 executeScript "common-devtools.ps1";
 executeScript "wsl.ps1";
 
-write-host "Installing tools inside the WSL distro..."
+write-host "Installing WSL distro..."
+executeScript "debian.ps1";
+
 Debian run apt install python3 python3-pip -y 
 
-write-host "Finished installing tools inside the WSL distro"
+write-host "Finished installing WSL distro"
 
 Enable-UAC
 Enable-MicrosoftUpdate
