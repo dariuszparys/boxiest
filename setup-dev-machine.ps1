@@ -20,6 +20,8 @@ RefreshEnv
 
 # Install git so we can clone the repository
 choco install git --params="/GitAndUnixToolsOnPath /WindowsTerminal"
+RefreshEnv
+
 git clone https://github.com/dariuszparys/boxiest.git ${boxiest_path}
 Set-Location "${boxiest_path}"
 
