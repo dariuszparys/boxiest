@@ -9,7 +9,8 @@ function invokeScript {
 }
 
 write-host "Installing WSL distro..."
-invokeScript "debian.ps1";
+invokeScript "install-debian.ps1"
+invokeScript "configure-debian.ps1"
 write-host "Finished installing WSL distro"
 
 Set-Location "${HOME}"

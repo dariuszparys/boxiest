@@ -26,8 +26,8 @@ git clone https://github.com/dariuszparys/boxiest.git ${boxiest_path}
 Set-Location "${boxiest_path}"
 
 #--- Setting up Windows ---
-invokeScript "browsers.ps1";
-invokeScript "common-devtools.ps1";
-invokeScript "wsl-feature.ps1";
+invokeScript "browsers.ps1"
+invokeScript "common-devtools.ps1"
+invokeScript "wsl-feature.ps1"
 
 write-host "Please reboot..."
