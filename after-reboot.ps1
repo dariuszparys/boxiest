@@ -1,4 +1,4 @@
-$boxiest_path = "${env:TEMP}\boxiest"
+$boxiest_path = "c:\boxiest"
 
 function invokeScript {
     param (

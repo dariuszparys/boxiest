@@ -2,7 +2,7 @@
 # Common dev settings for Windows Server 2019 with Containers base image
 
 # Common Variables
-$boxiest_path = "${env:TEMP}\boxiest"
+$boxiest_path = "c:\boxiest"
 
 # Helper Functions
 function invokeScript {
