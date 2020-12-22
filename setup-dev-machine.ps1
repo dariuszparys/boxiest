@@ -24,10 +24,24 @@ function executeCommand {
 # Install Chocolatey
 Set-ExecutionPolicy Bypass -Scope CurrentUser -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 choco feature enable --name allowGlobalConfirmation
-RefreshEnv
+
+# From https://stackoverflow.com/questions/46758437/how-to-refresh-the-environment-of-a-powershell-session-after-a-chocolatey-instal
+
+# Make `refreshenv` available right away, by defining the $env:ChocolateyInstall
+# variable and importing the Chocolatey profile module.
+# Note: Using `. $PROFILE` instead *may* work, but isn't guaranteed to.
+$env:ChocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."   
+Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+
+# refreshenv is now an alias for Update-SessionEnvironment
+# (rather than invoking refreshenv.cmd, the *batch file* for use with cmd.exe)
+# This should make git.exe accessible via the refreshed $env:PATH, so that it
+# can be called by name only.
+refreshenv
 
 # Install git so we can clone the repository
-executeCommand "choco install git --params=""'/GitAndUnixToolsOnPath /WindowsTerminal'""; refreshenv"
+executeCommand "choco install git --params=""'/GitAndUnixToolsOnPath /WindowsTerminal'"""
+refreshenv
 executeCommand "git clone https://github.com/dariuszparys/boxiest.git ${boxiest_path}"
 
 Set-Location "${boxiest_path}"
