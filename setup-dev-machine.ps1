@@ -2,8 +2,7 @@
 # Common dev settings for Windows Server 2019 with Containers base image
 
 installScript(
-    Param ([string] $script)
-) {
+    Param ([string] $script) {
     Install-BoxstarterPackage -PackageName "scripts\$script"
 }
 
