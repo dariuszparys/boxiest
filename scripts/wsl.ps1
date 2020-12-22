@@ -1,1 +1,1 @@
-choco install Microsoft-Windows-Subsystem-Linux --source windowsfeatures
+choco install -y Microsoft-Windows-Subsystem-Linux --source windowsfeatures

@@ -1,39 +1,37 @@
-# Description: Boxstarter Script
 # Author: Dariusz Parys
 # Common dev settings for Windows Server 2019 with Containers base image
 
-Disable-UAC
-
-# Get the base URI path from the ScriptToCall value
-$bstrappackage = "-bootstrapPackage"
-$helperUri = $Boxstarter['ScriptToCall']
-$strpos = $helperUri.IndexOf($bstrappackage)
-$helperUri = $helperUri.Substring($strpos + $bstrappackage.Length)
-$helperUri = $helperUri.TrimStart("'", " ")
-$helperUri = $helperUri.TrimEnd("'", " ")
-$helperUri = $helperUri.Substring(0, $helperUri.LastIndexOf("/"))
-$helperUri += "/scripts"
-write-host "helper script base URI is $helperUri"
-
-function executeScript {
-    Param ([string]$script)
-    write-host "executing $helperUri/$script ..."
-	iex ((new-object net.webclient).DownloadString("$helperUri/$script"))
+installScript(
+    Param ([string] $script)
+) {
+    Install-BoxstarterPackage -PackageName "scripts\$script"
 }
 
+# Common Variables
+$boxiest_path = "${env:TEMP}\boxiest"
+
+# Install Chocolatey
+Set-ExecutionPolicy Bypass -Scope CurrentUser -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+choco feature enable --name allowGlobalConfirmation
+RefreshEnv
+
+# Install Boxstarter
+. { iwr -useb https://boxstarter.org/bootstrapper.ps1 } | iex; Get-Boxstarter -Force
+
+# Install git so we can clone the repository
+choco install git --params="/GitAndUnixToolsOnPath /WindowsTerminal"
+git clone https://github.com/dariuszparys/boxiest.git ${boxiest_path}
+Set-Location "${boxiest_path}"
+
 #--- Setting up Windows ---
-executeScript "fileexplorersettings.ps1";
-executeScript "browsers.ps1";
-executeScript "common-devtools.ps1";
-executeScript "wsl.ps1";
+installScript "browsers.ps1";
+installScript "common-devtools.ps1";
+installScript "wsl.ps1";
 
 write-host "Installing WSL distro..."
-executeScript "debian.ps1";
+Set-Location "${HOME}"
+installScript "debian.ps1";
 
 Debian run apt install python3 python3-pip -y 
 
 write-host "Finished installing WSL distro"
-
-Enable-UAC
-Enable-MicrosoftUpdate
-Install-WindowsUpdate -acceptEula
