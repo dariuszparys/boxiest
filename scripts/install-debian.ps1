@@ -4,3 +4,4 @@ Rename-Item "${HOME}\Debian.appx" "${HOME}\Debian.zip"
 Expand-Archive "${HOME}\Debian.zip" "${HOME}\Debian"
 $userenv = [System.Environment]::GetEnvironmentVariable("Path", "User")
 [System.Environment]::SetEnvironmentVariable("PATH", $userenv + ";${HOME}\Debian", "User")
+$env:PATH = "${env:PATH};${HOME}\Debian"
