@@ -27,7 +27,7 @@ choco feature enable --name allowGlobalConfirmation
 RefreshEnv
 
 # Install git so we can clone the repository
-executeCommand "choco install git --params=""/GitAndUnixToolsOnPath /WindowsTerminal""; refreshenv"
+executeCommand "choco install git --params=""'/GitAndUnixToolsOnPath /WindowsTerminal'""; refreshenv"
 executeCommand "git clone https://github.com/dariuszparys/boxiest.git ${boxiest_path}"
 
 Set-Location "${boxiest_path}"
