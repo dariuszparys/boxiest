@@ -13,19 +13,21 @@ function invokeScript {
     powershell -c "${boxiest_path}\scripts\$script"
 }
 
-# Install Chocolatey
+Set-Location "${env:USERPROFILE}"
+If ( ! ( Test-Path "${PROFILE}" ) ) { 
+    New-Item -Force -ItemType File -Path "${PROFILE}"
+    Add-Content -Path "${PROFILE}" -Encoding UTF8 -Value "# Powershell Profile"; 
+}
+
 Set-ExecutionPolicy Bypass -Scope CurrentUser -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 choco feature enable --name allowGlobalConfirmation
-RefreshEnv
 
-# Install git so we can clone the repository
-choco install git --params="/GitAndUnixToolsOnPath /WindowsTerminal"
-RefreshEnv
+refreshenv
 
+choco install git --params="/GitOnlyOnPath /WindowsTerminal /NoShellHereIntegration /SChannel"
 git clone https://github.com/dariuszparys/boxiest.git ${boxiest_path}
 Set-Location "${boxiest_path}"
 
-#--- Setting up Windows ---
 invokeScript "browsers.ps1"
 invokeScript "common-devtools.ps1"
 invokeScript "wsl-feature.ps1"
