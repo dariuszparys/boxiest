@@ -13,6 +13,10 @@ invokeScript "install-debian.ps1"
 invokeScript "configure-debian.ps1"
 write-host "Finished installing WSL distro"
 
+write-host "Configuring Linux Containers On Windows"
+invokeScript "lcow.ps1"
+write-host "Finished LCOW configuration"
+
 Set-Location "${HOME}"
 Remove-Item -Path "${boxiest_path}" -Recurse -Force
 
